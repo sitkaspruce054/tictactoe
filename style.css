@@ -1,0 +1,24 @@
+*{
+    border: medium dashed green;
+}
+
+body{
+    height: 100vh;
+    width: 100vw;
+    background-color: aqua;
+    margin: 0;
+}
+#head{
+    position: absolute;
+    top:0px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    background-color: aquamarineß;
+}
+
+#foot{
+    position: absolute;
+    bottom: 0px;
+    width: 100vw;
+}
