@@ -9,11 +9,18 @@ well as checking if there exists a win condition.
 
 **/
 
-let startbtn = document.getElementById('startgame')
 
-startbtn.addEventListener('click',()=>{
-    main();
-})
+let menu = document.getElementById('menu')
+let button = document.getElementById('startgame')
+menu.addEventListener('submit',initializeGame)
+
+function initializeGame(event){
+    event.preventDefault();
+    const gameInfo = new FormData(event.target)
+    const gameInfoObj = Object.fromEntries(gameInfo.entries());
+    controldisplay(gameInfoObj.playerOne,gameInfoObj.playerTwo);
+    
+}
 
 function makeGameBoard(){
     board = []
@@ -30,6 +37,10 @@ function makeGameBoard(){
         }
         board[loc].updateValue(player)
 
+    }
+
+    const clearBoard = () =>{
+        
     }
     return { getBoard, placemarker}
 }
@@ -71,19 +82,67 @@ function main(first_player,second_player){
     }
     const checkwin = () =>{
         let boar = board.getBoard();
-        console.log(boar[0].getValue())
-        if(boar[0].getValue() === boar[1].getValue() === boar[2].getValue()){
-            if(boar[0] != ''){
-                alert('sss')
+    
+        
+        if(boar[0].getValue() === boar[1].getValue() & boar[0].getValue() === boar[2].getValue()){
+            if(boar[0].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
             }
         }
+        if(boar[3].getValue() === boar[4].getValue() & boar[3].getValue() === boar[5].getValue()){
+            if(boar[3].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
+            }
+        }
+        if(boar[6].getValue() === boar[7].getValue() & boar[6].getValue() === boar[8].getValue()){
+            if(boar[6].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
+            }
+        }
+        if(boar[0].getValue() === boar[3].getValue() & boar[0].getValue() === boar[6].getValue()){
+            if(boar[0].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true;
+            }
+        }
+        if(boar[1].getValue() === boar[4].getValue() & boar[1].getValue() === boar[7].getValue()){
+            if(boar[1].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
+            }
+        }
+        if(boar[2].getValue() === boar[5].getValue() & boar[5].getValue() === boar[8].getValue()){
+            if(boar[2].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
+            }
+        }
+        if(boar[0].getValue() === boar[4].getValue() & boar[4].getValue() === boar[8].getValue()){
+            if(boar[0].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true
+            }
+        }
+        if(boar[6].getValue() === boar[4].getValue() & boar[4].getValue() === boar[2].getValue()){
+            if(boar[6].getValue() != ''){
+                alert(cur_player.name+' has won')
+                return true;
+            }
+        }
+        const check = boar.filter(cel => cel.getValue() != '')
+        console.log(check)
         
         
     }
     const playRound = (index) => {
         
         board.placemarker(index,getCurPlayer().symbol);
-        checkwin()
+        if(checkwin() == true){
+            
+        }
         
         
         switchplayer();
@@ -97,8 +156,8 @@ function main(first_player,second_player){
     }
 }
 
-function controldisplay(){
-    const game = main('player1','player2')
+function controldisplay(p1,p2){
+    const game = main(p1,p2)
     const player_turn = document.querySelector('.cur_play');
     const board_cont = document.querySelector('.board');
 
@@ -117,19 +176,23 @@ function controldisplay(){
 
             const cell_button = document.createElement('button')
             cell_button.classList.add('cell')
-
+            
             cell_button.dataset.index = Cell.get_id();
             cell_button.textContent = Cell.getValue();
+
             board_cont.appendChild(cell_button)
         })
     }
     function inputHandler(e) {
-        e.target.disabled = true;
+        
         const selectedCell = e.target.dataset.index;
         if (!selectedCell) return;
-        alert('detected')
-        game.playRound(selectedCell);
-        selectedCell.disabled = true;
+        
+        if(board[selectedCell].getValue() == ''){
+             game.playRound(selectedCell);
+        }
+           
+        
         updateScreen();
     }
     board_cont.addEventListener("click",inputHandler);
@@ -138,5 +201,5 @@ function controldisplay(){
 }
 
 
-controldisplay();
+
 
